@@ -1,0 +1,717 @@
+Terminals unused in grammar
+
+    OR
+    AND
+    NOT
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: ε
+    2        | program statement
+
+    3 statement: expr SEMICOLON
+    4          | PRINT expr SEMICOLON
+    5          | if_stmt
+    6          | WHILE LPAREN condition RPAREN statement
+    7          | LBRACE program RBRACE
+    8          | error SEMICOLON
+
+    9 if_stmt: IF LPAREN condition RPAREN statement
+   10        | IF LPAREN condition RPAREN statement ELSE statement
+
+   11 condition: expr GT expr
+   12          | expr LT expr
+   13          | expr EQ expr
+   14          | LPAREN condition RPAREN
+
+   15 expr: NUMBER
+   16     | IDENTIFIER
+   17     | expr PLUS expr
+   18     | expr MINUS expr
+   19     | expr MULTIPLY expr
+   20     | expr DIVIDE expr
+   21     | IDENTIFIER ASSIGN expr
+   22     | LPAREN expr RPAREN
+   23     | ERROR
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256) 8
+    ERROR (258) 23
+    NUMBER <num> (259) 15
+    IDENTIFIER <id> (260) 16 21
+    PLUS (261) 17
+    MINUS (262) 18
+    MULTIPLY (263) 19
+    DIVIDE (264) 20
+    ASSIGN (265) 21
+    GT (266) 11
+    LT (267) 12
+    EQ (268) 13
+    SEMICOLON (269) 3 4 8
+    LPAREN (270) 6 9 10 14 22
+    RPAREN (271) 6 9 10 14 22
+    LBRACE (272) 7
+    RBRACE (273) 7
+    IF (274) 9 10
+    ELSE (275) 10
+    WHILE (276) 6
+    PRINT (277) 4
+    OR (278)
+    AND (279)
+    NOT (280)
+    LOWER_THAN_ELSE (281)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (27)
+        on left: 0
+    program (28)
+        on left: 1 2
+        on right: 0 2 7
+    statement (29)
+        on left: 3 4 5 6 7 8
+        on right: 2 6 9 10
+    if_stmt (30)
+        on left: 9 10
+        on right: 5
+    condition <num> (31)
+        on left: 11 12 13 14
+        on right: 6 9 10 14
+    expr <num> (32)
+        on left: 15 16 17 18 19 20 21 22 23
+        on right: 3 4 11 12 13 17 18 19 20 21 22
+
+
+State 0
+
+    0 $accept: • program $end
+
+    $default  reduce using rule 1 (program)
+
+    program  go to state 1
+
+
+State 1
+
+    0 $accept: program • $end
+    2 program: program • statement
+
+    $end        shift, and go to state 2
+    error       shift, and go to state 3
+    ERROR       shift, and go to state 4
+    NUMBER      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    LPAREN      shift, and go to state 7
+    LBRACE      shift, and go to state 8
+    IF          shift, and go to state 9
+    WHILE       shift, and go to state 10
+    PRINT       shift, and go to state 11
+
+    statement  go to state 12
+    if_stmt    go to state 13
+    expr       go to state 14
+
+
+State 2
+
+    0 $accept: program $end •
+
+    $default  accept
+
+
+State 3
+
+    8 statement: error • SEMICOLON
+
+    SEMICOLON  shift, and go to state 15
+
+
+State 4
+
+   23 expr: ERROR •
+
+    $default  reduce using rule 23 (expr)
+
+
+State 5
+
+   15 expr: NUMBER •
+
+    $default  reduce using rule 15 (expr)
+
+
+State 6
+
+   16 expr: IDENTIFIER •
+   21     | IDENTIFIER • ASSIGN expr
+
+    ASSIGN  shift, and go to state 16
+
+    $default  reduce using rule 16 (expr)
+
+
+State 7
+
+   22 expr: LPAREN • expr RPAREN
+
+    ERROR       shift, and go to state 4
+    NUMBER      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    LPAREN      shift, and go to state 7
+
+    expr  go to state 17
+
+
+State 8
+
+    7 statement: LBRACE • program RBRACE
+
+    $default  reduce using rule 1 (program)
+
+    program  go to state 18
+
+
+State 9
+
+    9 if_stmt: IF • LPAREN condition RPAREN statement
+   10        | IF • LPAREN condition RPAREN statement ELSE statement
+
+    LPAREN  shift, and go to state 19
+
+
+State 10
+
+    6 statement: WHILE • LPAREN condition RPAREN statement
+
+    LPAREN  shift, and go to state 20
+
+
+State 11
+
+    4 statement: PRINT • expr SEMICOLON
+
+    ERROR       shift, and go to state 4
+    NUMBER      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    LPAREN      shift, and go to state 7
+
+    expr  go to state 21
+
+
+State 12
+
+    2 program: program statement •
+
+    $default  reduce using rule 2 (program)
+
+
+State 13
+
+    5 statement: if_stmt •
+
+    $default  reduce using rule 5 (statement)
+
+
+State 14
+
+    3 statement: expr • SEMICOLON
+   17 expr: expr • PLUS expr
+   18     | expr • MINUS expr
+   19     | expr • MULTIPLY expr
+   20     | expr • DIVIDE expr
+
+    PLUS       shift, and go to state 22
+    MINUS      shift, and go to state 23
+    MULTIPLY   shift, and go to state 24
+    DIVIDE     shift, and go to state 25
+    SEMICOLON  shift, and go to state 26
+
+
+State 15
+
+    8 statement: error SEMICOLON •
+
+    $default  reduce using rule 8 (statement)
+
+
+State 16
+
+   21 expr: IDENTIFIER ASSIGN • expr
+
+    ERROR       shift, and go to state 4
+    NUMBER      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    LPAREN      shift, and go to state 7
+
+    expr  go to state 27
+
+
+State 17
+
+   17 expr: expr • PLUS expr
+   18     | expr • MINUS expr
+   19     | expr • MULTIPLY expr
+   20     | expr • DIVIDE expr
+   22     | LPAREN expr • RPAREN
+
+    PLUS      shift, and go to state 22
+    MINUS     shift, and go to state 23
+    MULTIPLY  shift, and go to state 24
+    DIVIDE    shift, and go to state 25
+    RPAREN    shift, and go to state 28
+
+
+State 18
+
+    2 program: program • statement
+    7 statement: LBRACE program • RBRACE
+
+    error       shift, and go to state 3
+    ERROR       shift, and go to state 4
+    NUMBER      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    LPAREN      shift, and go to state 7
+    LBRACE      shift, and go to state 8
+    RBRACE      shift, and go to state 29
+    IF          shift, and go to state 9
+    WHILE       shift, and go to state 10
+    PRINT       shift, and go to state 11
+
+    statement  go to state 12
+    if_stmt    go to state 13
+    expr       go to state 14
+
+
+State 19
+
+    9 if_stmt: IF LPAREN • condition RPAREN statement
+   10        | IF LPAREN • condition RPAREN statement ELSE statement
+
+    ERROR       shift, and go to state 4
+    NUMBER      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    LPAREN      shift, and go to state 30
+
+    condition  go to state 31
+    expr       go to state 32
+
+
+State 20
+
+    6 statement: WHILE LPAREN • condition RPAREN statement
+
+    ERROR       shift, and go to state 4
+    NUMBER      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    LPAREN      shift, and go to state 30
+
+    condition  go to state 33
+    expr       go to state 32
+
+
+State 21
+
+    4 statement: PRINT expr • SEMICOLON
+   17 expr: expr • PLUS expr
+   18     | expr • MINUS expr
+   19     | expr • MULTIPLY expr
+   20     | expr • DIVIDE expr
+
+    PLUS       shift, and go to state 22
+    MINUS      shift, and go to state 23
+    MULTIPLY   shift, and go to state 24
+    DIVIDE     shift, and go to state 25
+    SEMICOLON  shift, and go to state 34
+
+
+State 22
+
+   17 expr: expr PLUS • expr
+
+    ERROR       shift, and go to state 4
+    NUMBER      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    LPAREN      shift, and go to state 7
+
+    expr  go to state 35
+
+
+State 23
+
+   18 expr: expr MINUS • expr
+
+    ERROR       shift, and go to state 4
+    NUMBER      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    LPAREN      shift, and go to state 7
+
+    expr  go to state 36
+
+
+State 24
+
+   19 expr: expr MULTIPLY • expr
+
+    ERROR       shift, and go to state 4
+    NUMBER      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    LPAREN      shift, and go to state 7
+
+    expr  go to state 37
+
+
+State 25
+
+   20 expr: expr DIVIDE • expr
+
+    ERROR       shift, and go to state 4
+    NUMBER      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    LPAREN      shift, and go to state 7
+
+    expr  go to state 38
+
+
+State 26
+
+    3 statement: expr SEMICOLON •
+
+    $default  reduce using rule 3 (statement)
+
+
+State 27
+
+   17 expr: expr • PLUS expr
+   18     | expr • MINUS expr
+   19     | expr • MULTIPLY expr
+   20     | expr • DIVIDE expr
+   21     | IDENTIFIER ASSIGN expr •
+
+    $default  reduce using rule 21 (expr)
+
+
+State 28
+
+   22 expr: LPAREN expr RPAREN •
+
+    $default  reduce using rule 22 (expr)
+
+
+State 29
+
+    7 statement: LBRACE program RBRACE •
+
+    $default  reduce using rule 7 (statement)
+
+
+State 30
+
+   14 condition: LPAREN • condition RPAREN
+   22 expr: LPAREN • expr RPAREN
+
+    ERROR       shift, and go to state 4
+    NUMBER      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    LPAREN      shift, and go to state 30
+
+    condition  go to state 39
+    expr       go to state 40
+
+
+State 31
+
+    9 if_stmt: IF LPAREN condition • RPAREN statement
+   10        | IF LPAREN condition • RPAREN statement ELSE statement
+
+    RPAREN  shift, and go to state 41
+
+
+State 32
+
+   11 condition: expr • GT expr
+   12          | expr • LT expr
+   13          | expr • EQ expr
+   17 expr: expr • PLUS expr
+   18     | expr • MINUS expr
+   19     | expr • MULTIPLY expr
+   20     | expr • DIVIDE expr
+
+    PLUS      shift, and go to state 22
+    MINUS     shift, and go to state 23
+    MULTIPLY  shift, and go to state 24
+    DIVIDE    shift, and go to state 25
+    GT        shift, and go to state 42
+    LT        shift, and go to state 43
+    EQ        shift, and go to state 44
+
+
+State 33
+
+    6 statement: WHILE LPAREN condition • RPAREN statement
+
+    RPAREN  shift, and go to state 45
+
+
+State 34
+
+    4 statement: PRINT expr SEMICOLON •
+
+    $default  reduce using rule 4 (statement)
+
+
+State 35
+
+   17 expr: expr • PLUS expr
+   17     | expr PLUS expr •
+   18     | expr • MINUS expr
+   19     | expr • MULTIPLY expr
+   20     | expr • DIVIDE expr
+
+    MULTIPLY  shift, and go to state 24
+    DIVIDE    shift, and go to state 25
+
+    $default  reduce using rule 17 (expr)
+
+
+State 36
+
+   17 expr: expr • PLUS expr
+   18     | expr • MINUS expr
+   18     | expr MINUS expr •
+   19     | expr • MULTIPLY expr
+   20     | expr • DIVIDE expr
+
+    MULTIPLY  shift, and go to state 24
+    DIVIDE    shift, and go to state 25
+
+    $default  reduce using rule 18 (expr)
+
+
+State 37
+
+   17 expr: expr • PLUS expr
+   18     | expr • MINUS expr
+   19     | expr • MULTIPLY expr
+   19     | expr MULTIPLY expr •
+   20     | expr • DIVIDE expr
+
+    $default  reduce using rule 19 (expr)
+
+
+State 38
+
+   17 expr: expr • PLUS expr
+   18     | expr • MINUS expr
+   19     | expr • MULTIPLY expr
+   20     | expr • DIVIDE expr
+   20     | expr DIVIDE expr •
+
+    $default  reduce using rule 20 (expr)
+
+
+State 39
+
+   14 condition: LPAREN condition • RPAREN
+
+    RPAREN  shift, and go to state 46
+
+
+State 40
+
+   11 condition: expr • GT expr
+   12          | expr • LT expr
+   13          | expr • EQ expr
+   17 expr: expr • PLUS expr
+   18     | expr • MINUS expr
+   19     | expr • MULTIPLY expr
+   20     | expr • DIVIDE expr
+   22     | LPAREN expr • RPAREN
+
+    PLUS      shift, and go to state 22
+    MINUS     shift, and go to state 23
+    MULTIPLY  shift, and go to state 24
+    DIVIDE    shift, and go to state 25
+    GT        shift, and go to state 42
+    LT        shift, and go to state 43
+    EQ        shift, and go to state 44
+    RPAREN    shift, and go to state 28
+
+
+State 41
+
+    9 if_stmt: IF LPAREN condition RPAREN • statement
+   10        | IF LPAREN condition RPAREN • statement ELSE statement
+
+    error       shift, and go to state 3
+    ERROR       shift, and go to state 4
+    NUMBER      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    LPAREN      shift, and go to state 7
+    LBRACE      shift, and go to state 8
+    IF          shift, and go to state 9
+    WHILE       shift, and go to state 10
+    PRINT       shift, and go to state 11
+
+    statement  go to state 47
+    if_stmt    go to state 13
+    expr       go to state 14
+
+
+State 42
+
+   11 condition: expr GT • expr
+
+    ERROR       shift, and go to state 4
+    NUMBER      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    LPAREN      shift, and go to state 7
+
+    expr  go to state 48
+
+
+State 43
+
+   12 condition: expr LT • expr
+
+    ERROR       shift, and go to state 4
+    NUMBER      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    LPAREN      shift, and go to state 7
+
+    expr  go to state 49
+
+
+State 44
+
+   13 condition: expr EQ • expr
+
+    ERROR       shift, and go to state 4
+    NUMBER      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    LPAREN      shift, and go to state 7
+
+    expr  go to state 50
+
+
+State 45
+
+    6 statement: WHILE LPAREN condition RPAREN • statement
+
+    error       shift, and go to state 3
+    ERROR       shift, and go to state 4
+    NUMBER      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    LPAREN      shift, and go to state 7
+    LBRACE      shift, and go to state 8
+    IF          shift, and go to state 9
+    WHILE       shift, and go to state 10
+    PRINT       shift, and go to state 11
+
+    statement  go to state 51
+    if_stmt    go to state 13
+    expr       go to state 14
+
+
+State 46
+
+   14 condition: LPAREN condition RPAREN •
+
+    $default  reduce using rule 14 (condition)
+
+
+State 47
+
+    9 if_stmt: IF LPAREN condition RPAREN statement •
+   10        | IF LPAREN condition RPAREN statement • ELSE statement
+
+    ELSE  shift, and go to state 52
+
+    $default  reduce using rule 9 (if_stmt)
+
+
+State 48
+
+   11 condition: expr GT expr •
+   17 expr: expr • PLUS expr
+   18     | expr • MINUS expr
+   19     | expr • MULTIPLY expr
+   20     | expr • DIVIDE expr
+
+    PLUS      shift, and go to state 22
+    MINUS     shift, and go to state 23
+    MULTIPLY  shift, and go to state 24
+    DIVIDE    shift, and go to state 25
+
+    $default  reduce using rule 11 (condition)
+
+
+State 49
+
+   12 condition: expr LT expr •
+   17 expr: expr • PLUS expr
+   18     | expr • MINUS expr
+   19     | expr • MULTIPLY expr
+   20     | expr • DIVIDE expr
+
+    PLUS      shift, and go to state 22
+    MINUS     shift, and go to state 23
+    MULTIPLY  shift, and go to state 24
+    DIVIDE    shift, and go to state 25
+
+    $default  reduce using rule 12 (condition)
+
+
+State 50
+
+   13 condition: expr EQ expr •
+   17 expr: expr • PLUS expr
+   18     | expr • MINUS expr
+   19     | expr • MULTIPLY expr
+   20     | expr • DIVIDE expr
+
+    PLUS      shift, and go to state 22
+    MINUS     shift, and go to state 23
+    MULTIPLY  shift, and go to state 24
+    DIVIDE    shift, and go to state 25
+
+    $default  reduce using rule 13 (condition)
+
+
+State 51
+
+    6 statement: WHILE LPAREN condition RPAREN statement •
+
+    $default  reduce using rule 6 (statement)
+
+
+State 52
+
+   10 if_stmt: IF LPAREN condition RPAREN statement ELSE • statement
+
+    error       shift, and go to state 3
+    ERROR       shift, and go to state 4
+    NUMBER      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+    LPAREN      shift, and go to state 7
+    LBRACE      shift, and go to state 8
+    IF          shift, and go to state 9
+    WHILE       shift, and go to state 10
+    PRINT       shift, and go to state 11
+
+    statement  go to state 53
+    if_stmt    go to state 13
+    expr       go to state 14
+
+
+State 53
+
+   10 if_stmt: IF LPAREN condition RPAREN statement ELSE statement •
+
+    $default  reduce using rule 10 (if_stmt)

@@ -1,0 +1,12 @@
+x = 10;
+y = x * 2;
+print y;
+
+if (y > 15) {
+    print 100;
+} else {
+    print 200;
+}
+
+z = (x + y) / 5;
+print z;
